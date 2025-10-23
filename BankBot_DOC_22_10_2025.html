@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankBot - AI Islamic Banking Assistant | Documentation</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --bg-tertiary: #ffffff;
+            --text-primary: #24292f;
+            --text-secondary: #57606a;
+            --border-color: #d0d7de;
+            --link-color: #0969da;
+            --code-bg: #f6f8fa;
+            --success: #1a7f37;
+            --warning: #9a6700;
+            --danger: #cf222e;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border-color: #30363d;
+            --link-color: #58a6ff;
+            --code-bg: #161b22;
+            --shadow: 0 0 0 1px rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo-emoji {
+            font-size: 32px;
+            margin-right: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .lang-select, .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .theme-toggle:hover, .lang-select:hover {
+            border-color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            padding: 12px;
+            margin: 20px 0;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .nav-item.active {
+            background: var(--link-color);
+            color: white;
+        }
+
+        /* Content Sections */
+        .section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 24px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 20px 0 12px 0;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 16px 0 8px 0;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge-info {
+            background: var(--link-color);
+            color: white;
+        }
+
+        /* Code Blocks */
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Links */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* RTL Support */
+        [dir="rtl"] {
+            text-align: right;
+        }
+
+        [dir="rtl"] ul, [dir="rtl"] ol {
+            margin-right: 24px;
+            margin-left: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-emoji">💬</span>
+                    <span>BankBot</span>
+                    <span class="badge badge-success">v3.2.0</span>
+                </div>
+                <div class="controls">
+                    <select class="lang-select" id="langSelect">
+                        <option value="en">English</option>
+                        <option value="ar">العربية</option>
+                        <option value="fr">Français</option>
+                    </select>
+                    <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="container">
+        <nav class="nav">
+            <a href="#overview" class="nav-item active" data-lang-en="Overview" data-lang-ar="نظرة عامة" data-lang-fr="Aperçu">Overview</a>
+            <a href="#features" class="nav-item" data-lang-en="Features" data-lang-ar="المميزات" data-lang-fr="Fonctionnalités">Features</a>
+            <a href="#installation" class="nav-item" data-lang-en="Installation" data-lang-ar="التثبيت" data-lang-fr="Installation">Installation</a>
+            <a href="#configuration" class="nav-item" data-lang-en="Configuration" data-lang-ar="الإعدادات" data-lang-fr="Configuration">Configuration</a>
+            <a href="#usage" class="nav-item" data-lang-en="Usage" data-lang-ar="الاستخدام" data-lang-fr="Utilisation">Usage</a>
+            <a href="#faq" class="nav-item" data-lang-en="FAQ" data-lang-ar="الأسئلة الشائعة" data-lang-fr="FAQ">FAQ</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Overview Section - EN -->
+        <section id="overview-en" class="section lang-content" data-lang="en">
+            <h1>🏦 BankBot - AI Islamic Banking Assistant</h1>
+            <p>A powerful WordPress plugin that provides an intelligent AI chatbot specifically designed for Islamic banking websites. Built with multi-language support, streaming responses, and comprehensive analytics.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-title">AI-Powered</div>
+                    <p>Integrates with OpenAI and Pollinations.ai for intelligent responses</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">Multi-Language</div>
+                    <p>Full support for English and Arabic (RTL)</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Analytics Dashboard</div>
+                    <p>Track conversations, users, and chatbot performance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-title">Anti-Spam</div>
+                    <p>Built-in rate limiting and IP blacklist protection</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section - AR -->
+        <section id="overview-ar" class="section lang-content hidden" data-lang="ar" dir="rtl">
+            <h1>🏦 بانك بوت - مساعد البنوك الإسلامية الذكي</h1>
+            <p>إضافة ووردبريس قوية توفر روبوت محادثة ذكي مصمم خصيصاً لمواقع البنوك الإسلامية. مبني بدعم متعدد اللغات، استجابات فورية، وتحليلات شاملة.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-title">مدعوم بالذكاء الاصطناعي</div>
+                    <p>متكامل مع OpenAI و Pollinations.ai للردود الذكية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">متعدد اللغات</div>
+                    <p>دعم كامل للغة الإنجليزية والعربية (RTL)</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">لوحة التحليلات</div>
+                    <p>تتبع المحادثات والمستخدمين وأداء الروبوت</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-title">مكافحة البريد المزعج</div>
+                    <p>حماية مدمجة بتحديد المعدل وقائمة IP السوداء</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section - FR -->
+        <section id="overview-fr" class="section lang-content hidden" data-lang="fr">
+            <h1>🏦 BankBot - Assistant Bancaire Islamique IA</h1>
+            <p>Un plugin WordPress puissant qui fournit un chatbot IA intelligent spécialement conçu pour les sites Web de banque islamique. Construit avec un support multilingue, des réponses en streaming et des analyses complètes.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-title">Alimenté par l'IA</div>
+                    <p>Intégration avec OpenAI et Pollinations.ai pour des réponses intelligentes</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">Multilingue</div>
+                    <p>Support complet pour l'anglais et l'arabe (RTL)</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Tableau de Bord</div>
+                    <p>Suivez les conversations, utilisateurs et performances</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-title">Anti-Spam</div>
+                    <p>Protection intégrée avec limitation de débit et liste noire IP</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section - EN -->
+        <section id="features-en" class="section lang-content" data-lang="en">
+            <h2>✨ Features</h2>
+            
+            <h3>Core Functionality</h3>
+            <ul>
+                <li>✅ AI-powered chatbot with OpenAI/Pollinations.ai integration</li>
+                <li>✅ Real-time streaming responses for natural conversations</li>
+                <li>✅ Multi-language support (English & Arabic with RTL)</li>
+                <li>✅ Customizable AI contexts for products, services, and policies</li>
+                <li>✅ Session-based conversation history</li>
+                <li>✅ Demo mode for testing without API keys</li>
+            </ul>
+
+            <h3>Analytics & Reporting</h3>
+            <ul>
+                <li>📊 Professional analytics dashboard with GitHub-style UI</li>
+                <li>📊 Conversation tracking with IP addresses</li>
+                <li>📊 Chart.js integration for data visualization</li>
+                <li>📊 Advanced filtering (date range, search, sort)</li>
+                <li>📊 Export conversations to CSV</li>
+                <li>📊 Import conversations from CSV</li>
+            </ul>
+
+            <h3>Security & Protection</h3>
+            <ul>
+                <li>🛡️ Configurable anti-spam protection</li>
+                <li>🛡️ Rate limiting (customizable messages per time window)</li>
+                <li>🛡️ IP blacklist management</li>
+                <li>🛡️ AJAX nonce verification</li>
+                <li>🛡️ Sanitized inputs and SQL injection protection</li>
+            </ul>
+
+            <h3>Customization</h3>
+            <ul>
+                <li>🎨 Full color customization (16+ color options)</li>
+                <li>🎨 Typography settings (fonts, sizes, weights)</li>
+                <li>🎨 Layout options (size, position, borders, shadows)</li>
+                <li>🎨 Custom icons (emoji, text, or image upload)</li>
+                <li>🎨 Animation settings (speed and shadow intensity)</li>
+                <li>🎨 Responsive design for all devices</li>
+            </ul>
+
+            <h3>Data Management</h3>
+            <ul>
+                <li>💾 CSV export/import functionality</li>
+                <li>💾 Bulk delete conversations</li>
+                <li>💾 Date range deletion</li>
+                <li>💾 Automatic database table creation</li>
+                <li>💾 Table structure verification and repair</li>
+            </ul>
+        </section>
+
+        <!-- Features Section - AR -->
+        <section id="features-ar" class="section lang-content hidden" data-lang="ar" dir="rtl">
+            <h2>✨ المميزات</h2>
+            
+            <h3>الوظائف الأساسية</h3>
+            <ul>
+                <li>✅ روبوت محادثة مدعوم بالذكاء الاصطناعي مع تكامل OpenAI/Pollinations.ai</li>
+                <li>✅ استجابات فورية في الوقت الفعلي للمحادثات الطبيعية</li>
+                <li>✅ دعم متعدد اللغات (الإنجليزية والعربية مع RTL)</li>
+                <li>✅ سياقات ذكاء اصطناعي قابلة للتخصيص للمنتجات والخدمات والسياسات</li>
+                <li>✅ سجل المحادثات القائم على الجلسة</li>
+                <li>✅ وضع تجريبي للاختبار بدون مفاتيح API</li>
+            </ul>
+
+            <h3>التحليلات والتقارير</h3>
+            <ul>
+                <li>📊 لوحة تحليلات احترافية بتصميم GitHub</li>
+                <li>📊 تتبع المحادثات مع عناوين IP</li>
+                <li>📊 تكامل Chart.js لتصور البيانات</li>
+                <li>📊 تصفية متقدمة (نطاق التاريخ، البحث، الفرز)</li>
+                <li>📊 تصدير المحادثات إلى CSV</li>
+                <li>📊 استيراد المحادثات من CSV</li>
+            </ul>
+
+            <h3>الأمان والحماية</h3>
+            <ul>
+                <li>🛡️ حماية قابلة للتكوين ضد البريد المزعج</li>
+                <li>🛡️ تحديد المعدل (رسائل قابلة للتخصيص لكل نافذة زمنية)</li>
+                <li>🛡️ إدارة القائمة السوداء لعناوين IP</li>
+                <li>🛡️ التحقق من nonce في AJAX</li>
+                <li>🛡️ مدخلات معقمة وحماية من حقن SQL</li>
+            </ul>
+
+            <h3>التخصيص</h3>
+            <ul>
+                <li>🎨 تخصيص كامل للألوان (أكثر من 16 خيار لون)</li>
+                <li>🎨 إعدادات الطباعة (الخطوط والأحجام والأوزان)</li>
+                <li>🎨 خيارات التخطيط (الحجم والموضع والحدود والظلال)</li>
+                <li>🎨 أيقونات مخصصة (رموز تعبيرية أو نص أو تحميل صورة)</li>
+                <li>🎨 إعدادات الرسوم المتحركة (السرعة وكثافة الظل)</li>
+                <li>🎨 تصميم متجاوب لجميع الأجهزة</li>
+            </ul>
+
+            <h3>إدارة البيانات</h3>
+            <ul>
+                <li>💾 وظيفة تصدير/استيراد CSV</li>
+                <li>💾 حذف جماعي للمحادثات</li>
+                <li>💾 حذف نطاق التاريخ</li>
+                <li>💾 إنشاء تلقائي لجدول قاعدة البيانات</li>
+                <li>💾 التحقق من بنية الجدول وإصلاحه</li>
+            </ul>
+        </section>
+
+        <!-- Features Section - FR -->
+        <section id="features-fr" class="section lang-content hidden" data-lang="fr">
+            <h2>✨ Fonctionnalités</h2>
+            
+            <h3>Fonctionnalités de Base</h3>
+            <ul>
+                <li>✅ Chatbot alimenté par l'IA avec intégration OpenAI/Pollinations.ai</li>
+                <li>✅ Réponses en streaming en temps réel pour des conversations naturelles</li>
+                <li>✅ Support multilingue (anglais et arabe avec RTL)</li>
+                <li>✅ Contextes IA personnalisables pour produits, services et politiques</li>
+                <li>✅ Historique des conversations basé sur les sessions</li>
+                <li>✅ Mode démo pour tester sans clés API</li>
+            </ul>
+
+            <h3>Analyses et Rapports</h3>
+            <ul>
+                <li>📊 Tableau de bord analytique professionnel avec UI style GitHub</li>
+                <li>📊 Suivi des conversations avec adresses IP</li>
+                <li>📊 Intégration Chart.js pour la visualisation des données</li>
+                <li>📊 Filtrage avancé (plage de dates, recherche, tri)</li>
+                <li>📊 Exportation des conversations vers CSV</li>
+                <li>📊 Importation des conversations depuis CSV</li>
+            </ul>
+
+            <h3>Sécurité et Protection</h3>
+            <ul>
+                <li>🛡️ Protection anti-spam configurable</li>
+                <li>🛡️ Limitation de débit (messages personnalisables par fenêtre temporelle)</li>
+                <li>🛡️ Gestion de liste noire IP</li>
+                <li>🛡️ Vérification nonce AJAX</li>
+                <li>🛡️ Entrées nettoyées et protection contre injection SQL</li>
+            </ul>
+
+            <h3>Personnalisation</h3>
+            <ul>
+                <li>🎨 Personnalisation complète des couleurs (16+ options)</li>
+                <li>🎨 Paramètres de typographie (polices, tailles, poids)</li>
+                <li>🎨 Options de mise en page (taille, position, bordures, ombres)</li>
+                <li>🎨 Icônes personnalisées (emoji, texte ou téléchargement d'image)</li>
+                <li>🎨 Paramètres d'animation (vitesse et intensité d'ombre)</li>
+                <li>🎨 Design responsive pour tous les appareils</li>
+            </ul>
+
+            <h3>Gestion des Données</h3>
+            <ul>
+                <li>💾 Fonctionnalité d'exportation/importation CSV</li>
+                <li>💾 Suppression en masse des conversations</li>
+                <li>💾 Suppression par plage de dates</li>
+                <li>💾 Création automatique de table de base de données</li>
+                <li>💾 Vérification et réparation de structure de table</li>
+            </ul>
+        </section>
+
+        <!-- Installation Section - EN -->
+        <section id="installation-en" class="section lang-content" data-lang="en">
+            <h2>📦 Installation</h2>
+            
+            <h3>Method 1: WordPress Admin</h3>
+            <ol>
+                <li>Download the plugin zip file from GitHub</li>
+                <li>Go to WordPress Admin → Plugins → Add New</li>
+                <li>Click "Upload Plugin" and choose the zip file</li>
+                <li>Click "Install Now" and then "Activate"</li>
+            </ol>
+
+            <h3>Method 2: FTP Upload</h3>
+            <ol>
+                <li>Extract the plugin zip file</li>
+                <li>Upload the <code>bankbot</code> folder to <code>/wp-content/plugins/</code></li>
+                <li>Go to WordPress Admin → Plugins</li>
+                <li>Find "BankBot" and click "Activate"</li>
+            </ol>
+
+            <h3>Method 3: WP-CLI</h3>
+            <pre><code>wp plugin install bankbot.zip --activate</code></pre>
+
+            <h3>Database Setup</h3>
+            <p>The plugin automatically creates the required database table upon activation. If needed, the table structure is verified and repaired on every admin page load.</p>
+            
+            <h4>Manual Table Creation (if needed)</h4>
+            <pre><code>CREATE TABLE wp_bankbot_conversations (
+  id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  session_id VARCHAR(255) NOT NULL,
+  user_id BIGINT(20) UNSIGNED,
+  user_message TEXT NOT NULL,
+  bot_response TEXT NOT NULL,
+  ip_address VARCHAR(45),
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</code></pre>
+        </section>
+
+        <!-- Installation Section - AR -->
+        <section id="installation-ar" class="section lang-content hidden" data-lang="ar" dir="rtl">
+            <h2>📦 التثبيت</h2>
+            
+            <h3>الطريقة 1: لوحة تحكم ووردبريس</h3>
+            <ol>
+                <li>قم بتنزيل ملف zip الخاص بالإضافة من GitHub</li>
+                <li>انتقل إلى لوحة تحكم ووردبريس ← الإضافات ← أضف جديد</li>
+                <li>انقر على "رفع إضافة" واختر ملف zip</li>
+                <li>انقر على "التثبيت الآن" ثم "تفعيل"</li>
+            </ol>
+
+            <h3>الطريقة 2: رفع عبر FTP</h3>
+            <ol>
+                <li>استخرج ملف zip الخاص بالإضافة</li>
+                <li>ارفع مجلد <code>bankbot</code> إلى <code>/wp-content/plugins/</code></li>
+                <li>انتقل إلى لوحة تحكم ووردبريس ← الإضافات</li>
+                <li>ابحث عن "BankBot" وانقر على "تفعيل"</li>
+            </ol>
+
+            <h3>الطريقة 3: WP-CLI</h3>
+            <pre><code>wp plugin install bankbot.zip --activate</code></pre>
+
+            <h3>إعداد قاعدة البيانات</h3>
+            <p>تقوم الإضافة تلقائياً بإنشاء جدول قاعدة البيانات المطلوب عند التفعيل. إذا لزم الأمر، يتم التحقق من بنية الجدول وإصلاحه في كل تحميل لصفحة الإدارة.</p>
+        </section>
+
+        <!-- Installation Section - FR -->
+        <section id="installation-fr" class="section lang-content hidden" data-lang="fr">
+            <h2>📦 Installation</h2>
+            
+            <h3>Méthode 1: Admin WordPress</h3>
+            <ol>
+                <li>Téléchargez le fichier zip du plugin depuis GitHub</li>
+                <li>Allez dans Admin WordPress → Extensions → Ajouter</li>
+                <li>Cliquez sur "Téléverser une extension" et choisissez le fichier zip</li>
+                <li>Cliquez sur "Installer maintenant" puis "Activer"</li>
+            </ol>
+
+            <h3>Méthode 2: Téléchargement FTP</h3>
+            <ol>
+                <li>Extrayez le fichier zip du plugin</li>
+                <li>Téléversez le dossier <code>bankbot</code> vers <code>/wp-content/plugins/</code></li>
+                <li>Allez dans Admin WordPress → Extensions</li>
+                <li>Trouvez "BankBot" et cliquez sur "Activer"</li>
+            </ol>
+
+            <h3>Méthode 3: WP-CLI</h3>
+            <pre><code>wp plugin install bankbot.zip --activate</code></pre>
+
+            <h3>Configuration de la Base de Données</h3>
+            <p>Le plugin crée automatiquement la table de base de données requise lors de l'activation. Si nécessaire, la structure de la table est vérifiée et réparée à chaque chargement de page admin.</p>
+        </section>
+
+        <!-- Configuration Section - EN -->
+        <section id="configuration-en" class="section lang-content" data-lang="en">
+            <h2>⚙️ Configuration</h2>
+            
+            <h3>1. General Settings</h3>
+            <p>Navigate to <strong>WordPress Admin → BankBot → Settings</strong></p>
+            
+            <h4>Enable/Disable Plugin</h4>
+            <ul>
+                <li>Toggle the "Enable BankBot" switch to activate or deactivate the chatbot</li>
+            </ul>
+
+            <h4>Bot Name</h4>
+            <ul>
+                <li>Set a custom name for your chatbot (default: "BankBot")</li>
+            </ul>
+
+            <h4>Language Selection</h4>
+            <ul>
+                <li>Choose between English (en) or Arabic (ar)</li>
+                <li>Arabic automatically enables RTL (right-to-left) layout</li>
+            </ul>
+
+            <h3>2. API Configuration</h3>
+            
+            <h4>API Provider</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Provider</th>
+                        <th>API Key Required</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pollinations.ai</td>
+                        <td>Optional</td>
+                        <td>Free (rate limited)</td>
+                    </tr>
+                    <tr>
+                        <td>OpenAI</td>
+                        <td>Yes</td>
+                        <td>Pay per use</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Getting API Keys</h4>
+            <ul>
+                <li><strong>Pollinations.ai:</strong> Visit <a href="https://auth.pollinations.ai" target="_blank">auth.pollinations.ai</a> (optional, for higher limits)</li>
+                <li><strong>OpenAI:</strong> Visit <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></li>
+            </ul>
+
+            <h3>3. AI Models</h3>
+            <ul>
+                <li><strong>OpenAI:</strong> GPT-3.5 Turbo (default, balanced)</li>
+                <li><strong>OpenAI Fast:</strong> Faster responses, lower quality</li>
+                <li><strong>Mistral:</strong> Open-source alternative</li>
+                <li><strong>Claude:</strong> Anthropic's model</li>
+            </ul>
+
+            <h3>4. Contexts & Messages</h3>
+            <pre><code>English Context: "You are a helpful Islamic banking assistant..."
+Arabic Context: "أنت مساعد مصرفي إسلامي مفيد..."
+
+Products Context: "Our bank offers Murabaha, Ijara, Musharaka..."
+Services Context: "We provide account opening, transfers..."
+Policies Context: "All transactions are Shariah-compliant..."</code></pre>
+
+            <h3>5. Customization</h3>
+            
+            <h4>Colors</h4>
+            <ul>
+                <li>Header Background & Text</li>
+                <li>User Bubble & Text</li>
+                <li>Bot Bubble & Text</li>
+                <li>Input Border & Background</li>
+                <li>Send Button & Toggle</li>
+            </ul>
+
+            <h4>Layout</h4>
+            <ul>
+                <li>Widget Position: Bottom-Right, Bottom-Left, Top-Right, Top-Left</li>
+                <li>Button Size: 40px - 100px</li>
+                <li>Chat Window: Width & Height</li>
+                <li>Border Radius: 0px - 30px</li>
+            </ul>
+
+            <h4>Typography</h4>
+            <ul>
+                <li>Font Family: System, Arial, Helvetica, Arabic fonts</li>
+                <li>Font Size: 12px - 20px</li>
+                <li>Header Size & Weight</li>
+            </ul>
+
+            <h3>6. Anti-Spam Settings</h3>
+            <pre><code>Enable Anti-Spam: ON/OFF
+Rate Limit Messages: 5 (default)
+Rate Limit Time Window: 60 seconds (default)
+
+Examples:
+- 5 messages per 60 seconds = 5 msg/minute
+- 10 messages per 120 seconds = 10 msg/2 minutes
+- 20 messages per 3600 seconds = 20 msg/hour</code></pre>
+
+            <h3>7. IP Blacklist</h3>
+            <p>Go to <strong>Analytics → Data Management → IP Blacklist</strong></p>
+            <pre><code>192.168.1.100
+10.0.0.50
+203.0.113.42</code></pre>
+            <p>Add one IP address per line. Blocked IPs cannot use the chatbot.</p>
+        </section>
+
+        <!-- Configuration Section - AR -->
+        <section id="configuration-ar" class="section lang-content hidden" data-lang="ar" dir="rtl">
+            <h2>⚙️ الإعدادات</h2>
+            
+            <h3>1. الإعدادات العامة</h3>
+            <p>انتقل إلى <strong>لوحة تحكم ووردبريس ← BankBot ← الإعدادات</strong></p>
+            
+            <h4>تفعيل/إلغاء تفعيل الإضافة</h4>
+            <ul>
+                <li>قم بتبديل مفتاح "تفعيل BankBot" لتنشيط أو إلغاء تنشيط الروبوت</li>
+            </ul>
+
+            <h4>اسم الروبوت</h4>
+            <ul>
+                <li>قم بتعيين اسم مخصص للروبوت (افتراضي: "BankBot")</li>
+            </ul>
+
+            <h4>اختيار اللغة</h4>
+            <ul>
+                <li>اختر بين الإنجليزية (en) أو العربية (ar)</li>
+                <li>العربية تفعل تلقائياً تخطيط RTL (من اليمين إلى اليسار)</li>
+            </ul>
+
+            <h3>2. إعداد API</h3>
+            
+            <h4>مزود API</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المزود</th>
+                        <th>مفتاح API مطلوب</th>
+                        <th>التكلفة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pollinations.ai</td>
+                        <td>اختياري</td>
+                        <td>مجاني (محدود)</td>
+                    </tr>
+                    <tr>
+                        <td>OpenAI</td>
+                        <td>نعم</td>
+                        <td>الدفع حسب الاستخدام</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3. السياقات والرسائل</h3>
+            <pre><code>السياق الإنجليزي: "You are a helpful Islamic banking assistant..."
+السياق العربي: "أنت مساعد مصرفي إسلامي مفيد..."
+
+سياق المنتجات: "يقدم بنكنا المرابحة، الإجارة، المشاركة..."
+سياق الخدمات: "نوفر فتح الحسابات، التحويلات..."
+سياق السياسات: "جميع المعاملات متوافقة مع الشريعة..."</code></pre>
+
+            <h3>4. إعدادات مكافحة البريد المزعج</h3>
+            <pre><code>تفعيل مكافحة البريد المزعج: تشغيل/إيقاف
+حد الرسائل: 5 (افتراضي)
+النافذة الزمنية: 60 ثانية (افتراضي)
+
+أمثلة:
+- 5 رسائل لكل 60 ثانية = 5 رسائل/دقيقة
+- 10 رسائل لكل 120 ثانية = 10 رسائل/دقيقتين
+- 20 رسالة لكل 3600 ثانية = 20 رسالة/ساعة</code></pre>
+
+            <h3>5. القائمة السوداء لعناوين IP</h3>
+            <p>انتقل إلى <strong>التحليلات ← إدارة البيانات ← القائمة السوداء لـ IP</strong></p>
+            <pre><code>192.168.1.100
+10.0.0.50
+203.0.113.42</code></pre>
+            <p>أضف عنوان IP واحد لكل سطر. لن تتمكن عناوين IP المحظورة من استخدام الروبوت.</p>
+        </section>
+
+        <!-- Configuration Section - FR -->
+        <section id="configuration-fr" class="section lang-content hidden" data-lang="fr">
+            <h2>⚙️ Configuration</h2>
+            
+            <h3>1. Paramètres Généraux</h3>
+            <p>Naviguez vers <strong>Admin WordPress → BankBot → Paramètres</strong></p>
+            
+            <h4>Activer/Désactiver le Plugin</h4>
+            <ul>
+                <li>Basculez "Activer BankBot" pour activer ou désactiver le chatbot</li>
+            </ul>
+
+            <h4>Nom du Bot</h4>
+            <ul>
+                <li>Définissez un nom personnalisé pour votre chatbot (par défaut: "BankBot")</li>
+            </ul>
+
+            <h4>Sélection de Langue</h4>
+            <ul>
+                <li>Choisissez entre anglais (en) ou arabe (ar)</li>
+                <li>L'arabe active automatiquement la mise en page RTL</li>
+            </ul>
+
+            <h3>2. Configuration API</h3>
+            
+            <h4>Fournisseur API</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fournisseur</th>
+                        <th>Clé API Requise</th>
+                        <th>Coût</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pollinations.ai</td>
+                        <td>Optionnelle</td>
+                        <td>Gratuit (limité)</td>
+                    </tr>
+                    <tr>
+                        <td>OpenAI</td>
+                        <td>Oui</td>
+                        <td>Paiement à l'utilisation</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3. Contextes & Messages</h3>
+            <pre><code>Contexte Anglais: "You are a helpful Islamic banking assistant..."
+Contexte Arabe: "أنت مساعد مصرفي إسلامي مفيد..."
+
+Contexte Produits: "Notre banque offre Murabaha, Ijara, Musharaka..."
+Contexte Services: "Nous fournissons ouverture de compte, transferts..."
+Contexte Politiques: "Toutes les transactions sont conformes à la Charia..."</code></pre>
+
+            <h3>4. Paramètres Anti-Spam</h3>
+            <pre><code>Activer Anti-Spam: ON/OFF
+Limite de Messages: 5 (par défaut)
+Fenêtre Temporelle: 60 secondes (par défaut)
+
+Exemples:
+- 5 messages par 60 secondes = 5 msg/minute
+- 10 messages par 120 secondes = 10 msg/2 minutes
+- 20 messages par 3600 secondes = 20 msg/heure</code></pre>
+
+            <h3>5. Liste Noire IP</h3>
+            <p>Allez à <strong>Analyses → Gestion des Données → Liste Noire IP</strong></p>
+            <pre><code>192.168.1.100
+10.0.0.50
+203.0.113.42</code></pre>
+            <p>Ajoutez une adresse IP par ligne. Les IP bloquées ne peuvent pas utiliser le chatbot.</p>
+        </section>
+
+        <!-- Usage Section - EN -->
+        <section id="usage-en" class="section lang-content" data-lang="en">
+            <h2>🚀 Usage</h2>
+            
+            <h3>Frontend Widget</h3>
+            <p>Once activated and configured, the chatbot widget automatically appears on all pages of your website.</p>
+            
+            <h4>User Interaction</h4>
+            <ol>
+                <li>Click the floating chat button (bottom-right by default)</li>
+                <li>Type a message in the input field</li>
+                <li>Press Enter or click the Send button</li>
+                <li>Receive AI-powered responses in real-time</li>
+                <li>Continue the conversation naturally</li>
+            </ol>
+
+            <h3>Analytics Dashboard</h3>
+            <p>Access: <strong>WordPress Admin → BankBot → Analytics</strong></p>
+            
+            <h4>Key Metrics</h4>
+            <ul>
+                <li><strong>Total Conversations:</strong> Number of all conversation exchanges</li>
+                <li><strong>Unique Users:</strong> Count of distinct users/IPs</li>
+                <li><strong>Avg Message Length:</strong> Average character count of user messages</li>
+            </ul>
+
+            <h4>Conversations Chart</h4>
+            <p>Line chart showing conversations over time (last 30 days)</p>
+
+            <h4>Filtering Options</h4>
+            <ul>
+                <li>Date Range: Select start and end dates</li>
+                <li>Search: Filter by user message, bot response, or IP address</li>
+                <li>Sort: Newest, Oldest, A-Z, Z-A, This Year, This Month, This Week, Today</li>
+            </ul>
+
+            <h3>Data Management</h3>
+            
+            <h4>Export Conversations</h4>
+            <ol>
+                <li>Go to Analytics Dashboard</li>
+                <li>Click "📥 Export to CSV"</li>
+                <li>CSV file downloads automatically</li>
+            </ol>
+
+            <h4>Import Conversations</h4>
+            <ol>
+                <li>Prepare CSV file with proper format</li>
+                <li>Click "📤 Import from CSV"</li>
+                <li>Select your CSV file</li>
+                <li>Conversations are imported automatically</li>
+            </ol>
+
+            <h4>Delete Conversations</h4>
+            <p><strong>Delete All:</strong></p>
+            <pre><code>Click "🗑️ Delete All" button → Confirm → All conversations deleted</code></pre>
+
+            <p><strong>Delete by Date Range:</strong></p>
+            <pre><code>Select start date → Select end date → Click "🗑️ Delete Date Range" → Confirm</code></pre>
+
+            <h3>Shortcodes</h3>
+            <p>Currently, the plugin automatically displays on all pages. Manual shortcode placement is not required but may be added in future versions.</p>
+        </section>
+
+        <!-- Usage Section - AR -->
+        <section id="usage-ar" class="section lang-content hidden" data-lang="ar" dir="rtl">
+            <h2>🚀 الاستخدام</h2>
+            
+            <h3>أداة الواجهة الأمامية</h3>
+            <p>بمجرد التفعيل والتكوين، تظهر أداة الروبوت تلقائياً على جميع صفحات موقعك.</p>
+            
+            <h4>تفاعل المستخدم</h4>
+            <ol>
+                <li>انقر على زر الدردشة العائم (أسفل اليمين افتراضياً)</li>
+                <li>اكتب رسالة في حقل الإدخال</li>
+                <li>اضغط Enter أو انقر على زر الإرسال</li>
+                <li>احصل على ردود مدعومة بالذكاء الاصطناعي في الوقت الفعلي</li>
+                <li>تابع المحادثة بشكل طبيعي</li>
+            </ol>
+
+            <h3>لوحة التحليلات</h3>
+            <p>الوصول: <strong>لوحة تحكم ووردبريس ← BankBot ← التحليلات</strong></p>
+            
+            <h4>المقاييس الرئيسية</h4>
+            <ul>
+                <li><strong>إجمالي المحادثات:</strong> عدد جميع تبادلات المحادثة</li>
+                <li><strong>المستخدمون الفريدون:</strong> عدد المستخدمين/IPs المميزين</li>
+                <li><strong>متوسط طول الرسالة:</strong> متوسط عدد الأحرف في رسائل المستخدم</li>
+            </ul>
+
+            <h4>رسم بياني للمحادثات</h4>
+            <p>رسم بياني خطي يوضح المحادثات على مدار الوقت (آخر 30 يوم)</p>
+
+            <h3>إدارة البيانات</h3>
+            
+            <h4>تصدير المحادثات</h4>
+            <ol>
+                <li>انتقل إلى لوحة التحليلات</li>
+                <li>انقر على "📥 تصدير إلى CSV"</li>
+                <li>يتم تنزيل ملف CSV تلقائياً</li>
+            </ol>
+
+            <h4>استيراد المحادثات</h4>
+            <ol>
+                <li>قم بإعداد ملف CSV بالتنسيق الصحيح</li>
+                <li>انقر على "📤 استيراد من CSV"</li>
+                <li>حدد ملف CSV الخاص بك</li>
+                <li>يتم استيراد المحادثات تلقائياً</li>
+            </ol>
+
+            <h4>حذف المحادثات</h4>
+            <p><strong>حذف الكل:</strong></p>
+            <pre><code>انقر على زر "🗑️ حذف الكل" ← تأكيد ← حذف جميع المحادثات</code></pre>
+
+            <p><strong>حذف حسب نطاق التاريخ:</strong></p>
+            <pre><code>حدد تاريخ البدء ← حدد تاريخ الانتهاء ← انقر "🗑️ حذف نطاق التاريخ" ← تأكيد</code></pre>
+        </section>
+
+        <!-- Usage Section - FR -->
+        <section id="usage-fr" class="section lang-content hidden" data-lang="fr">
+            <h2>🚀 Utilisation</h2>
+            
+            <h3>Widget Frontend</h3>
+            <p>Une fois activé et configuré, le widget chatbot apparaît automatiquement sur toutes les pages de votre site.</p>
+            
+            <h4>Interaction Utilisateur</h4>
+            <ol>
+                <li>Cliquez sur le bouton de chat flottant (en bas à droite par défaut)</li>
+                <li>Tapez un message dans le champ de saisie</li>
+                <li>Appuyez sur Entrée ou cliquez sur le bouton Envoyer</li>
+                <li>Recevez des réponses alimentées par l'IA en temps réel</li>
+                <li>Continuez la conversation naturellement</li>
+            </ol>
+
+            <h3>Tableau de Bord Analytique</h3>
+            <p>Accès: <strong>Admin WordPress → BankBot → Analyses</strong></p>
+            
+            <h4>Métriques Clés</h4>
+            <ul>
+                <li><strong>Total des Conversations:</strong> Nombre de tous les échanges de conversation</li>
+                <li><strong>Utilisateurs Uniques:</strong> Nombre d'utilisateurs/IPs distincts</li>
+                <li><strong>Longueur Moyenne des Messages:</strong> Nombre moyen de caractères des messages utilisateur</li>
+            </ul>
+
+            <h4>Graphique des Conversations</h4>
+            <p>Graphique linéaire montrant les conversations au fil du temps (30 derniers jours)</p>
+
+            <h3>Gestion des Données</h3>
+            
+            <h4>Exporter les Conversations</h4>
+            <ol>
+                <li>Allez au Tableau de Bord Analytique</li>
+                <li>Cliquez sur "📥 Exporter vers CSV"</li>
+                <li>Le fichier CSV se télécharge automatiquement</li>
+            </ol>
+
+            <h4>Importer les Conversations</h4>
+            <ol>
+                <li>Préparez un fichier CSV au format approprié</li>
+                <li>Cliquez sur "📤 Importer depuis CSV"</li>
+                <li>Sélectionnez votre fichier CSV</li>
+                <li>Les conversations sont importées automatiquement</li>
+            </ol>
+
+            <h4>Supprimer les Conversations</h4>
+            <p><strong>Supprimer Tout:</strong></p>
+            <pre><code>Cliquez sur "🗑️ Supprimer Tout" → Confirmer → Toutes les conversations supprimées</code></pre>
+
+            <p><strong>Supprimer par Plage de Dates:</strong></p>
+            <pre><code>Sélectionnez date de début → Sélectionnez date de fin → Cliquez "🗑️ Supprimer Plage" → Confirmer</code></pre>
+        </section>
+
+        <!-- FAQ Section - EN -->
+        <section id="faq-en" class="section lang-content" data-lang="en">
+            <h2>❓ FAQ</h2>
+            
+            <h3>General Questions</h3>
+            
+            <h4>Q: Do I need an API key to use BankBot?</h4>
+            <p>A: No, you can use the demo mode without any API key. However, for production use, an API key is recommended for better performance and no rate limits.</p>
+
+            <h4>Q: Which AI models are supported?</h4>
+            <p>A: BankBot supports OpenAI (GPT-3.5, GPT-4), OpenAI Fast, Mistral, and Claude models via Pollinations.ai API.</p>
+
+            <h4>Q: Can I customize the chatbot appearance?</h4>
+            <p>A: Yes! You can customize 16+ colors, fonts, sizes, positions, borders, shadows, animations, and icons.</p>
+
+            <h4>Q: Does it support RTL languages?</h4>
+            <p>A: Yes, Arabic language automatically enables RTL (right-to-left) layout support.</p>
+
+            <h3>Technical Questions</h3>
+
+            <h4>Q: Where are conversations stored?</h4>
+            <p>A: All conversations are stored in your WordPress database in the <code>wp_bankbot_conversations</code> table.</p>
+
+            <h4>Q: Can I export conversation data?</h4>
+            <p>A: Yes, you can export all conversations to CSV format from the Analytics Dashboard.</p>
+
+            <h4>Q: How does the anti-spam protection work?</h4>
+            <p>A: The plugin uses rate limiting (configurable messages per time window) and IP blacklist to prevent abuse.</p>
+
+            <h4>Q: What happens if the database table is missing?</h4>
+            <p>A: The plugin automatically checks and creates the table structure on every admin page load.</p>
+
+            <h3>Troubleshooting</h3>
+
+            <h4>Q: The chatbot is not appearing on my site</h4>
+            <p>A: Check that the plugin is activated and "Enable BankBot" is turned ON in settings.</p>
+
+            <h4>Q: API responses are slow or failing</h4>
+            <p>A: Verify your API key is correct and you have sufficient credits/quota with your AI provider.</p>
+
+            <h4>Q: How do I reset all settings?</h4>
+            <p>A: Deactivate and reactivate the plugin, or delete the <code>bankbot_settings</code> option from the database.</p>
+
+            <h4>Q: Can I use this on multiple sites?</h4>
+            <p>A: Yes, the plugin can be installed on multiple WordPress sites independently.</p>
+
+            <h3>Security Questions</h3>
+
+            <h4>Q: Is my data secure?</h4>
+            <p>A: All data is stored in your WordPress database. API communications use HTTPS. The plugin uses nonce verification and input sanitization.</p>
+
+            <h4>Q: How do I block specific IP addresses?</h4>
+            <p>A: Go to Analytics → Data Management → IP Blacklist, and add IP addresses (one per line).</p>
+
+            <h4>Q: Can users see other users' conversations?</h4>
+            <p>A: No, each user has their own isolated conversation session. Only admins can view all conversations in the Analytics Dashboard.</p>
+        </section>
+
+        <!-- FAQ Section - AR -->
+        <section id="faq-ar" class="section lang-content hidden" data-lang="ar" dir="rtl">
+            <h2>❓ الأسئلة الشائعة</h2>
+            
+            <h3>أسئلة عامة</h3>
+            
+            <h4>س: هل أحتاج إلى مفتاح API لاستخدام BankBot؟</h4>
+            <p>ج: لا، يمكنك استخدام الوضع التجريبي بدون أي مفتاح API. ومع ذلك، للاستخدام الإنتاجي، يُوصى بمفتاح API لأداء أفضل وبدون حدود للمعدل.</p>
+
+            <h4>س: ما هي نماذج الذكاء الاصطناعي المدعومة؟</h4>
+            <p>ج: يدعم BankBot نماذج OpenAI (GPT-3.5، GPT-4)، OpenAI Fast، Mistral، وClaude عبر Pollinations.ai API.</p>
+
+            <h4>س: هل يمكنني تخصيص مظهر الروبوت؟</h4>
+            <p>ج: نعم! يمكنك تخصيص أكثر من 16 لون، خطوط، أحجام، مواضع، حدود، ظلال، رسوم متحركة، وأيقونات.</p>
+
+            <h4>س: هل يدعم اللغات RTL؟</h4>
+            <p>ج: نعم، اللغة العربية تفعل تلقائياً دعم تخطيط RTL (من اليمين إلى اليسار).</p>
+
+            <h3>أسئلة تقنية</h3>
+
+            <h4>س: أين يتم تخزين المحادثات؟</h4>
+            <p>ج: يتم تخزين جميع المحادثات في قاعدة بيانات ووردبريس الخاصة بك في جدول <code>wp_bankbot_conversations</code>.</p>
+
+            <h4>س: هل يمكنني تصدير بيانات المحادثة؟</h4>
+            <p>ج: نعم، يمكنك تصدير جميع المحادثات إلى تنسيق CSV من لوحة التحليلات.</p>
+
+            <h4>س: كيف تعمل حماية مكافحة البريد المزعج؟</h4>
+            <p>ج: تستخدم الإضافة تحديد المعدل (رسائل قابلة للتكوين لكل نافذة زمنية) والقائمة السوداء لـ IP لمنع الإساءة.</p>
+
+            <h3>استكشاف الأخطاء وإصلاحها</h3>
+
+            <h4>س: الروبوت لا يظهر على موقعي</h4>
+            <p>ج: تحقق من أن الإضافة مفعلة وأن "تفعيل BankBot" قيد التشغيل في الإعدادات.</p>
+
+            <h4>س: استجابات API بطيئة أو تفشل</h4>
+            <p>ج: تحقق من أن مفتاح API الخاص بك صحيح وأن لديك رصيد/حصة كافية مع مزود الذكاء الاصطناعي الخاص بك.</p>
+
+            <h4>س: كيف يمكنني إعادة تعيين جميع الإعدادات؟</h4>
+            <p>ج: قم بإلغاء تنشيط وإعادة تنشيط الإضافة، أو احذف خيار <code>bankbot_settings</code> من قاعدة البيانات.</p>
+
+            <h3>أسئلة الأمان</h3>
+
+            <h4>س: هل بياناتي آمنة؟</h4>
+            <p>ج: يتم تخزين جميع البيانات في قاعدة بيانات ووردبريس الخاصة بك. تستخدم اتصالات API بروتوكول HTTPS. تستخدم الإضافة التحقق من nonce وتعقيم الإدخال.</p>
+
+            <h4>س: كيف أحظر عناوين IP محددة؟</h4>
+            <p>ج: انتقل إلى التحليلات ← إدارة البيانات ← القائمة السوداء لـ IP، وأضف عناوين IP (واحد لكل سطر).</p>
+        </section>
+
+        <!-- FAQ Section - FR -->
+        <section id="faq-fr" class="section lang-content hidden" data-lang="fr">
+            <h2>❓ FAQ</h2>
+            
+            <h3>Questions Générales</h3>
+            
+            <h4>Q: Ai-je besoin d'une clé API pour utiliser BankBot?</h4>
+            <p>R: Non, vous pouvez utiliser le mode démo sans clé API. Cependant, pour une utilisation en production, une clé API est recommandée pour de meilleures performances et sans limites de débit.</p>
+
+            <h4>Q: Quels modèles d'IA sont supportés?</h4>
+            <p>R: BankBot supporte les modèles OpenAI (GPT-3.5, GPT-4), OpenAI Fast, Mistral et Claude via l'API Pollinations.ai.</p>
+
+            <h4>Q: Puis-je personnaliser l'apparence du chatbot?</h4>
+            <p>R: Oui! Vous pouvez personnaliser plus de 16 couleurs, polices, tailles, positions, bordures, ombres, animations et icônes.</p>
+
+            <h4>Q: Supporte-t-il les langues RTL?</h4>
+            <p>R: Oui, la langue arabe active automatiquement le support de mise en page RTL (droite à gauche).</p>
+
+            <h3>Questions Techniques</h3>
+
+            <h4>Q: Où sont stockées les conversations?</h4>
+            <p>R: Toutes les conversations sont stockées dans votre base de données WordPress dans la table <code>wp_bankbot_conversations</code>.</p>
+
+            <h4>Q: Puis-je exporter les données de conversation?</h4>
+            <p>R: Oui, vous pouvez exporter toutes les conversations au format CSV depuis le Tableau de Bord Analytique.</p>
+
+            <h4>Q: Comment fonctionne la protection anti-spam?</h4>
+            <p>R: Le plugin utilise la limitation de débit (messages configurables par fenêtre temporelle) et une liste noire IP pour prévenir les abus.</p>
+
+            <h3>Dépannage</h3>
+
+            <h4>Q: Le chatbot n'apparaît pas sur mon site</h4>
+            <p>R: Vérifiez que le plugin est activé et que "Activer BankBot" est activé dans les paramètres.</p>
+
+            <h4>Q: Les réponses API sont lentes ou échouent</h4>
+            <p>R: Vérifiez que votre clé API est correcte et que vous avez suffisamment de crédits/quota avec votre fournisseur d'IA.</p>
+
+            <h4>Q: Comment réinitialiser tous les paramètres?</h4>
+            <p>R: Désactivez et réactivez le plugin, ou supprimez l'option <code>bankbot_settings</code> de la base de données.</p>
+
+            <h3>Questions de Sécurité</h3>
+
+            <h4>Q: Mes données sont-elles sécurisées?</h4>
+            <p>R: Toutes les données sont stockées dans votre base de données WordPress. Les communications API utilisent HTTPS. Le plugin utilise la vérification nonce et la désinfection des entrées.</p>
+
+            <h4>Q: Comment bloquer des adresses IP spécifiques?</h4>
+            <p>R: Allez à Analyses → Gestion des Données → Liste Noire IP, et ajoutez des adresses IP (une par ligne).</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Made with ❤️ by Mohamed Houssem Eddine SAIGHI & Claude Sonnet 4.5</p>
+            <p>BankBot v3.2.0 | Licensed under GPL v2 or later</p>
+            <p>
+                <a href="https://github.com/houssemdub/bankbot" target="_blank">GitHub</a> |
+                <a href="#" target="_blank">Report Issue</a> |
+                <a href="#" target="_blank">Support</a>
+            </p>
+        </div>
+    </footer>
+
+   <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeButton(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeButton(newTheme);
+    });
+    
+    function updateThemeButton(theme) {
+        themeToggle.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+    }
+    
+    // Language Switcher
+    const langSelect = document.getElementById('langSelect');
+    const savedLang = localStorage.getItem('language') || 'en';
+    langSelect.value = savedLang;
+    switchLanguage(savedLang);
+    
+    langSelect.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        localStorage.setItem('language', lang);
+        switchLanguage(lang);
+    });
+    
+    function switchLanguage(lang) {
+        // Hide all language content
+        document.querySelectorAll('.lang-content').forEach(section => {
+            section.classList.add('hidden');
+        });
+        
+        // Show selected language content
+        document.querySelectorAll(`[data-lang="${lang}"]`).forEach(section => {
+            section.classList.remove('hidden');
+        });
+        
+        // Update navigation text
+        document.querySelectorAll('.nav-item').forEach(item => {
+            const text = item.getAttribute(`data-lang-${lang}`);
+            if (text) item.textContent = text;
+        });
+        
+        // Set RTL for Arabic
+        document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    }
+    
+    // Navigation Click Handler - FIXED
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all items
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+            
+            // Get the section name from href (e.g., #overview)
+            const href = item.getAttribute('href');
+            const sectionName = href.replace('#', '');
+            
+            // Get current language
+            const currentLang = langSelect.value;
+            
+            // Build the full section ID with language suffix
+            const targetId = `${sectionName}-${currentLang}`;
+            const targetSection = document.getElementById(targetId);
+            
+            // Scroll to the target section
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Update navigation active state on scroll
+    window.addEventListener('scroll', () => {
+        const currentLang = langSelect.value;
+        let currentSection = '';
+        
+        document.querySelectorAll('.lang-content').forEach(section => {
+            if (!section.classList.contains('hidden')) {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    const sectionId = section.getAttribute('id');
+                    currentSection = sectionId.replace(`-${currentLang}`, '');
+                }
+            }
+        });
+        
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${currentSection}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
