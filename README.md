@@ -1,0 +1,2 @@
+# bankbot
+A Wordpress Plugin.
